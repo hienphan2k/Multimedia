@@ -3169,7 +3169,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0b91dd02b4dad5e4e9c023c58f82d6a6,
         type: 3}
       propertyPath: m_Name
-      value: futuristic low poly city(by niko)
+      value: futuristic low poly city
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0b91dd02b4dad5e4e9c023c58f82d6a6,
         type: 3}
