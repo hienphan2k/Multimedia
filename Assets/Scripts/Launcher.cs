@@ -34,15 +34,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public GameObject nameInputScreen;
     public TMP_InputField nameInput;
-    public static bool hasSetNick;
+    private bool hasSetNick;
 
     public string levelToPlay;
     public GameObject startButton;
 
     public GameObject roomTestButton;
-
-    public string[] allMaps;
-    public bool changeMapBetweenRounds = true;
 
     // Start is called before the first frame update
     void Start()
@@ -52,17 +49,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         loadingScreen.SetActive(true);
         loadingText.text = "Connecting To Network...";
 
-        if (!PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        PhotonNetwork.ConnectUsingSettings();
 
 #if UNITY_EDITOR
         roomTestButton.SetActive(true);
 #endif
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     void CloseMenus()
@@ -78,7 +70,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        
+
 
         PhotonNetwork.JoinLobby();
 
@@ -143,7 +135,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             startButton.SetActive(true);
-        } else
+        }
+        else
         {
             startButton.SetActive(false);
         }
@@ -151,14 +144,14 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private void ListAllPlayers()
     {
-        foreach(TMP_Text player in allPlayerNames)
+        foreach (TMP_Text player in allPlayerNames)
         {
             Destroy(player.gameObject);
         }
         allPlayerNames.Clear();
 
         Player[] players = PhotonNetwork.PlayerList;
-        for(int i = 0; i <players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
             TMP_Text newPlayerLabel = Instantiate(playerNameLabel, playerNameLabel.transform.parent);
             newPlayerLabel.text = players[i].NickName;
@@ -223,7 +216,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach(RoomButton rb in allRoomButtons)
+        foreach (RoomButton rb in allRoomButtons)
         {
             Destroy(rb.gameObject);
         }
@@ -231,7 +224,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         theRoomButton.gameObject.SetActive(false);
 
-        for(int i = 0; i < roomList.Count; i++)
+        for (int i = 0; i < roomList.Count; i++)
         {
             if (roomList[i].PlayerCount != roomList[i].MaxPlayers && !roomList[i].RemovedFromList)
             {
@@ -270,9 +263,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        //PhotonNetwork.LoadLevel(levelToPlay);
-
-        PhotonNetwork.LoadLevel(allMaps[Random.Range(0, allMaps.Length)]);
+        PhotonNetwork.LoadLevel(levelToPlay);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
